@@ -1,6 +1,12 @@
 import React from "react";
 
-const Input = ({ onChange, id, value }) => {
+export interface InputProps {
+  onChange: (name: string, value: string) => void;
+  id: string;
+  value: string;
+}
+
+const Input = ({ onChange, id, value }: InputProps) => {
   return (
     <input
       id={id}

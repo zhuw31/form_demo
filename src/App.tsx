@@ -8,7 +8,7 @@ function App() {
   const form = useRef(null);
 
   const handleSubmit = () => {
-    form.current.submitForm((formValue) => {
+    form.current!.submitForm((formValue) => {
       console.log(formValue);
     });
   };
