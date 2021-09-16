@@ -8,12 +8,14 @@ function App() {
   const form = useRef(null);
 
   const handleSubmit = () => {
-    form.current!.submitForm((formValue) => {
+    // @ts-ignore
+    form?.current?.submitForm((formValue: string) => {
       console.log(formValue);
     });
   };
 
   const handleReset = () => {
+    // @ts-ignore
     form.current.resetForm();
   };
 
@@ -21,10 +23,10 @@ function App() {
     <div className="container">
       <h1>Form</h1>
       <Form ref={form}>
-        <FormItem name="name" label="我是">
+        <FormItem name="name" label="I am">
           <Input />
         </FormItem>
-        <FormItem name="mes" label="我想对大家说">
+        <FormItem name="mes" label="I wanna say">
           <Input />
         </FormItem>
         <input placeholder="不需要的input" />
