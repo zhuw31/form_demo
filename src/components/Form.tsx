@@ -1,18 +1,20 @@
-import React, {
+import {
   Children,
   cloneElement,
   forwardRef,
-  PropsWithChildren,
-  ReactElement,
-  Ref,
+  isValidElement,
+  ReactNode,
   useEffect,
   useMemo,
   useState,
 } from "react";
-import { FormItemProps } from "./FormItem";
 
-const Form = forwardRef<Ref<HTMLDivElement>>((props, ref) => {
-  const [formData, setFormData] = useState({});
+interface formProps {
+  children: ReactNode | ReactNode[];
+}
+
+const Form = forwardRef<HTMLDivElement, formProps>((props, ref) => {
+  const [formData, setFormData] = useState<Record<string, string> | null>(null);
 
   const handleChange = (n: string, v: string) =>
     setFormData((f) => ({ ...f, [n]: v }));
@@ -20,37 +22,42 @@ const Form = forwardRef<Ref<HTMLDivElement>>((props, ref) => {
   const children = useMemo(
     () =>
       Children.map(props.children, (child) => {
-        const item = child as ReactElement<PropsWithChildren<FormItemProps>>;
+        if (!isValidElement(child)) {
+          return null;
+        }
 
-        if (item.type === "FormItem") {
-          const childProps = item.props;
+        // @ts-ignore
+        if (child.type?.displayName === "FormItem") {
+          const formItemProps = child.props;
           return cloneElement(
-            item,
+            child,
             {
-              key: childProps.name,
-              inputValue: "",
-              onChange: handleChange,
+              key: formItemProps.name,
+              inputValue: formData ? formData[formItemProps.name] : "",
+              onChange: (v: string) => handleChange(formItemProps.name, v),
             },
-            item.props.children
+            formItemProps.children
           );
         }
 
         return null;
       }),
-    [props.children]
+    [props.children, formData]
   );
 
-  ref.current.submitForm = (cb) => cb(formData);
-  ref.current.resetForm = () => {
-    setFormData((f) =>
-      Object.values(f).reduce((acc, cur) => ({ ...acc, [cur]: "" }), {})
-    );
-  };
-
   useEffect(() => {
-    if (ref.current) {
+    if (ref && typeof ref === "object" && ref.current) {
+      // @ts-ignore
+      ref.current.submitForm = (cb) => {
+        cb(formData);
+      };
+
+      // @ts-ignore
+      ref.current.resetForm = () => {
+        setFormData(null);
+      };
     }
-  }, [ref]);
+  }, [ref, formData]);
 
   return <div ref={ref}>{children}</div>;
 });
