@@ -3,8 +3,8 @@ import { cloneElement } from "react";
 export interface FormItemProps {
   name: string;
   label: string;
-  inputValue: string;
-  onChange: (n: string, v: string) => void;
+  inputValue?: string;
+  onChange?: (n: string, v: string) => void;
   children: JSX.Element;
 }
 
@@ -30,3 +30,5 @@ function FormItem({
 }
 
 export default FormItem;
+
+FormItem.displayName = "FormItem";
