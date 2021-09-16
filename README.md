@@ -6,10 +6,10 @@ This a form item demo project whose main idea is to implement the main features 
 
 The features of this demo are listed below:
 
-- [ ] The form instance can be used with `ref` which has instance methods like `submitForm` for submitting and `resetForm` for resetting.
+- [x] The form instance can be used with `ref` which has instance methods like `submitForm` for submitting and `resetForm` for resetting.
 - [x] The form only accepts `FormItem` and skips anything else automatically.
-- [ ] The value of the `name` property of `FormItem` can become the key when submitting form. And There is also a `label` property for indicating the `FormItem`.
-- [ ] `FormItem` can collect the value of `Input` automatically.
+- [x] The value of the `name` property of `FormItem` can become the key when submitting form. And There is also a `label` property for indicating the `FormItem`.
+- [x] `FormItem` can collect the value of `Input` automatically.
 - [ ] Fancinating UI
 
 ## 🌰 Example
